@@ -1,0 +1,19 @@
+{
+    "type": "bank-card",
+    "spec_version": "2.1",
+    "id": "bank-card--a9ec124a-f962-5aa8-8e29-c809b179fdcd",
+    "format": "credit",
+    "number": "4242424242424242",
+    "scheme": "VISA",
+    "issuer_name": "Big Bank",
+    "issuer_country": "GBR",
+    "cardholder_name": "Signals Corps",
+    "valid_from": "01/99",
+    "valid_to": "01/00",
+    "security_code": "999",
+    "extensions": {
+        "extension-definition--592031e5-2fa4-5f9a-b624-b957d882f6e4": {
+            "extension_type": "new-sco"
+        }
+    }
+}

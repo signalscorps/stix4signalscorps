@@ -1,0 +1,19 @@
+{
+    "type": "identity",
+    "spec_version": "2.1",
+    "id": "identity--9c259ff7-f413-5001-9911-70b4352af93f",
+    "created_by_ref": "identity--aae8eb2d-ea6c-56d6-a606-cc9f755e2dd3",
+    "created": "2020-01-01T00:00:00.000Z",
+    "modified": "2020-01-01T00:00:00.000Z",
+    "name": "txt2stix",
+    "description": "https://github.com/signalscorps/txt2stix",
+    "identity_class": "system",
+    "sectors": [
+        "technology"
+    ],
+    "contact_information": "https://www.signalscorps.com/contact/",
+    "object_marking_refs": [
+        "marking-definition--613f2e26-407d-48c7-9eca-b8e91df99dc9",
+        "marking-definition--3f588e96-e413-57b5-b735-f0ec6c3a8771"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "type": "bank-account",
+    "spec_version": "2.1",
+    "id": "bank-account--beb6db91-85d8-563d-ac07-6b9a2c5ab3ee",
+    "bank": "Big Bank",
+    "country": "GBR",
+    "currency": "GBP",
+    "owner_name": "A customer",
+    "iban_number": "GB33BUKB20201555555555",
+    "swift_code": "DEMOGB22XXX",
+    "extensions": {
+        "extension-definition--33917e06-c460-5081-8e31-8abb56d90759": {
+            "extension_type": "new-sco"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "type": "phone-number",
+    "spec_version": "2.1",
+    "id": "phone-number--9ddadf84-bd0b-5e37-89fa-e3d8d895b87c",
+    "number": "07890129093",
+    "country_code": "44",
+    "connection": "Mobile",
+    "provider": "Big Network",
+    "extensions": {
+        "extension-definition--39bed241-8484-5211-b93c-16ccc20f588e": {
+            "extension_type": "new-sco"
+        }
+    }
+}

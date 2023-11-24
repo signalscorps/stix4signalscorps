@@ -1,0 +1,19 @@
+{
+    "type": "extension-definition",
+    "spec_version": "2.1",
+    "id": "extension-definition--dc7cf6f0-f39f-5895-9f8b-9a111874b1fe",
+    "created_by_ref": "identity--aae8eb2d-ea6c-56d6-a606-cc9f755e2dd3",
+    "created": "2020-01-01T00:00:00.000Z",
+    "modified": "2020-01-01T00:00:00.000Z",
+    "name": "User Agent",
+    "description": "This extension creates a new SCO that can be used to represent user agents used in HTTP request. It is designed to be used when the Network Traffic SCO with HTTP request extension cannot be used due to lack of request information needed for the required properties.",
+    "schema": "https://raw.githubusercontent.com/signalscorps/stix4signalscorps/main/objects/extension-definition/schemas/extension-definition--dc7cf6f0-f39f-5895-9f8b-9a111874b1fe.schema",
+    "version": "1.0",
+    "extension_types": [
+        "new-sco"
+    ],
+    "object_marking_refs": [
+        "marking-definition--613f2e26-407d-48c7-9eca-b8e91df99dc9",
+        "marking-definition--3f588e96-e413-57b5-b735-f0ec6c3a8771"
+    ]
+}

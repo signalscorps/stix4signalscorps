@@ -1,0 +1,11 @@
+{
+    "type": "user-agent",
+    "spec_version": "2.1",
+    "id": "user-agent--efa95c9a-3f4c-5c3c-a8c9-777f3b4c4092",
+    "string": "Mozilla/5.0 (Linux; Android 11; Lenovo YT-J706X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
+    "extensions": {
+        "extension-definition--dc7cf6f0-f39f-5895-9f8b-9a111874b1fe": {
+            "extension_type": "new-sco"
+        }
+    }
+}
