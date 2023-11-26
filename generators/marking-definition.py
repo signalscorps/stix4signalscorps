@@ -2,7 +2,10 @@ import uuid
 import stix2
 import os
 import shutil
+import json
 
+from stix2 import Bundle
+from stix2.base import STIXJSONEncoder
 from stix2 import MarkingDefinition
 from stix2 import FileSystemStore
 from uuid import UUID
@@ -11,7 +14,7 @@ from uuid import UUID
 
 tmp_directories = [
     "tmp_object_store/marking-definition/cpe2stix",
-    "tmp_object_store/marking-definition/cti2arango",
+    "tmp_object_store/marking-definition/arango_cti_processor",
     "tmp_object_store/marking-definition/cve2stix",
     "tmp_object_store/marking-definition/cwe2stix",
     "tmp_object_store/marking-definition/disarm2stix",
@@ -60,17 +63,17 @@ cpe2stix_MarkingDefinitionSMO = MarkingDefinition(
                         object_marking_refs=object_marking_refs
                     )
 
-### cti2arango
+### arango_cti_processor
 
-#### marking-definition--640fae1c-8fa5-5e9c-9809-6883c238fc24.json
+#### marking-definition--af79980e-cce7-5a67-becb-82ad5a68e850
 
-cti2arango_MarkingDefinitionSMO = MarkingDefinition(
-                        id="marking-definition--" + str(uuid.uuid5(namespace, f"cti2arango")),
+arango_cti_processor_MarkingDefinitionSMO = MarkingDefinition(
+                        id="marking-definition--" + str(uuid.uuid5(namespace, f"arango_cti_processor")),
                         created_by_ref=created_by_ref,
                         created=created,
                         definition_type=definition_type,
                         definition= {
-                            "statement": "This object was created using: https://github.com/signalscorps/cti2arango"
+                            "statement": "This object was created using: https://github.com/signalscorps/arango_cti_processor"
                         },
                         object_marking_refs=object_marking_refs
                     )
@@ -182,6 +185,14 @@ txt2stix_MarkingDefinitionSMO = MarkingDefinition(
                         object_marking_refs=object_marking_refs
                     )
 
+object_list = cpe2stix_MarkingDefinitionSMO, arango_cti_processor_MarkingDefinitionSMO, cve2stix_MarkingDefinitionSMO, cwe2stix_MarkingDefinitionSMO, disarm2stix_MarkingDefinitionSMO, sigma2stix_MarkingDefinitionSMO, stix4signalscorps_MarkingDefinitionSMO, stix2arango_MarkingDefinitionSMO, txt2stix_MarkingDefinitionSMO
+
+BundleofAllObjects = Bundle(
+                        id="bundle--" + str(uuid.uuid5(namespace, f"marking-definition-bundle")),
+                        objects=object_list,
+                        allow_custom=True
+                    )
+
 # Write the objects to the filestore
 ## https://stix2.readthedocs.io/en/latest/guide/filesystem.html#FileSystemSource
 
@@ -189,7 +200,7 @@ txt2stix_MarkingDefinitionSMO = MarkingDefinition(
 
 fs_directories = {
     "tmp_object_store/marking-definition/cpe2stix": cpe2stix_MarkingDefinitionSMO,
-    "tmp_object_store/marking-definition/cti2arango": cti2arango_MarkingDefinitionSMO,
+    "tmp_object_store/marking-definition/arango_cti_processor": arango_cti_processor_MarkingDefinitionSMO,
     "tmp_object_store/marking-definition/cve2stix": cve2stix_MarkingDefinitionSMO,
     "tmp_object_store/marking-definition/cwe2stix": cwe2stix_MarkingDefinitionSMO,
     "tmp_object_store/marking-definition/disarm2stix": disarm2stix_MarkingDefinitionSMO,
@@ -218,7 +229,7 @@ base_output_path = "objects/marking-definition/"
 
 file_names = [
     "cpe2stix/marking-definition/marking-definition--" + str(uuid.uuid5(namespace, f"cpe2stix")) + ".json",
-    "cti2arango/marking-definition/marking-definition--" + str(uuid.uuid5(namespace, f"cti2arango")) + ".json",
+    "arango_cti_processor/marking-definition/marking-definition--" + str(uuid.uuid5(namespace, f"arango_cti_processor")) + ".json",
     "cve2stix/marking-definition/marking-definition--" + str(uuid.uuid5(namespace, f"cve2stix")) + ".json",
     "cwe2stix/marking-definition/marking-definition--" + str(uuid.uuid5(namespace, f"cwe2stix")) + ".json",
     "disarm2stix/marking-definition/marking-definition--" + str(uuid.uuid5(namespace, f"disarm2stix")) + ".json",
@@ -234,3 +245,7 @@ for file_name in file_names:
     shutil.move(source_path, destination_path)
 
 shutil.rmtree("tmp_object_store")
+
+## Print the bundle
+
+print(BundleofAllObjects.serialize(pretty=True))

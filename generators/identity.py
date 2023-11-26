@@ -2,7 +2,10 @@ import uuid
 import stix2
 import os
 import shutil
+import json
 
+from stix2 import Bundle
+from stix2.base import STIXJSONEncoder
 from stix2 import Identity
 from stix2 import FileSystemStore
 from uuid import UUID
@@ -11,7 +14,7 @@ from uuid import UUID
 
 tmp_directories = [
     "tmp_object_store/identity/cpe2stix",
-    "tmp_object_store/identity/cti2arango",
+    "tmp_object_store/identity/arango_cti_processor",
     "tmp_object_store/identity/cve2stix",
     "tmp_object_store/identity/cwe2stix",
     "tmp_object_store/identity/disarm2stix",
@@ -19,7 +22,8 @@ tmp_directories = [
     "tmp_object_store/identity/signalscorps",
     "tmp_object_store/identity/signalscorps_demo",
     "tmp_object_store/identity/stix2arango",
-   	"tmp_object_store/identity/txt2stix"
+   	"tmp_object_store/identity/txt2stix",
+    "tmp_object_store/identity/arango_cti_processor"
 ]
 
 for directory in tmp_directories:
@@ -71,21 +75,21 @@ cpe2stix_IdentitySDO = Identity(
 						object_marking_refs=object_marking_refs
                     )
 
-### cti2arango
+### arango_cti_processor
 
-#### identity--640fae1c-8fa5-5e9c-9809-6883c238fc24
+#### identity--af79980e-cce7-5a67-becb-82ad5a68e850
 
-cti2arango_IdentitySDO = Identity(
-						id="identity--" + str(uuid.uuid5(namespace, f"cti2arango")),
-						created_by_ref=created_by_ref,
-						created=created,
-						modified=modified,
-                    	name="cti2arango",
-                        description=github_link+"cti2arango",
+arango_cti_processor_IdentitySDO = Identity(
+                        id="identity--" + str(uuid.uuid5(namespace, f"arango_cti_processor")),
+                        created_by_ref=created_by_ref,
+                        created=created,
+                        modified=modified,
+                        name="arango_cti_processor",
+                        description=github_link+"arango_cti_processor",
                         contact_information= contact_information,
                         identity_class=identity_class,
                         sectors=sectors,
-						object_marking_refs=object_marking_refs
+                        object_marking_refs=object_marking_refs
                     )
 
 ### cve2stix
@@ -223,6 +227,14 @@ txt2stix_IdentitySDO = Identity(
 						object_marking_refs=object_marking_refs
                     )
 
+object_list = cpe2stix_IdentitySDO, arango_cti_processor_IdentitySDO, cve2stix_IdentitySDO, cwe2stix_IdentitySDO, disarm2stix_IdentitySDO, sigma2stix_IdentitySDO, signalscorps_IdentitySDO, signalscorps_demo_IdentitySDO, stix2arango_IdentitySDO, txt2stix_IdentitySDO
+
+BundleofAllObjects = Bundle(
+                        id="bundle--" + str(uuid.uuid5(namespace, f"identity-bundle")),
+                        objects=object_list,
+                        allow_custom=True
+                    )
+
 # Write the objects to the filestore
 ## https://stix2.readthedocs.io/en/latest/guide/filesystem.html#FileSystemSource
 
@@ -230,7 +242,7 @@ txt2stix_IdentitySDO = Identity(
 
 fs_directories = {
     "tmp_object_store/identity/cpe2stix": cpe2stix_IdentitySDO,
-    "tmp_object_store/identity/cti2arango": cti2arango_IdentitySDO,
+    "tmp_object_store/identity/arango_cti_processor": arango_cti_processor_IdentitySDO,
     "tmp_object_store/identity/cve2stix": cve2stix_IdentitySDO,
     "tmp_object_store/identity/cwe2stix": cwe2stix_IdentitySDO,
     "tmp_object_store/identity/disarm2stix": disarm2stix_IdentitySDO,
@@ -257,7 +269,7 @@ for directory in final_directories:
 
 shutil.move("tmp_object_store/identity/cpe2stix/identity/identity--" + str(uuid.uuid5(namespace, f"cpe2stix")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"cpe2stix")) + ".json")
 
-shutil.move("tmp_object_store/identity/cti2arango/identity/identity--" + str(uuid.uuid5(namespace, f"cti2arango")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"cti2arango")) + ".json")
+shutil.move("tmp_object_store/identity/arango_cti_processor/identity/identity--" + str(uuid.uuid5(namespace, f"arango_cti_processor")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"arango_cti_processor")) + ".json")
 
 shutil.move("tmp_object_store/identity/cve2stix/identity/identity--" + str(uuid.uuid5(namespace, f"cve2stix")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"cve2stix")) + ".json")
 
@@ -276,3 +288,7 @@ shutil.move("tmp_object_store/identity/stix2arango/identity/identity--" + str(uu
 shutil.move("tmp_object_store/identity/txt2stix/identity/identity--" + str(uuid.uuid5(namespace, f"txt2stix")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"txt2stix")) + ".json")
 
 shutil.rmtree("tmp_object_store")
+
+## Print the bundle
+
+print(BundleofAllObjects.serialize(pretty=True))

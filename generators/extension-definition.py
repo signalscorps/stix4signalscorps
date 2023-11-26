@@ -2,7 +2,10 @@ import uuid
 import stix2
 import os
 import shutil
+import json
 
+from stix2 import Bundle
+from stix2.base import STIXJSONEncoder
 from stix2 import ExtensionDefinition
 from stix2 import FileSystemStore
 from uuid import UUID
@@ -178,6 +181,14 @@ user_agent_ExtensionDefinitionSMO = ExtensionDefinition(
                         object_marking_refs=object_marking_refs
                     )
 
+object_list = weakness_ExtensionDefinitionSMO, bank_account_ExtensionDefinitionSMO, bank_card_ExtensionDefinitionSMO, cryptocurrency_transaction_ExtensionDefinitionSMO, cryptocurrency_wallet_ExtensionDefinitionSMO, phone_number_ExtensionDefinitionSMO, user_agent_ExtensionDefinitionSMO
+
+BundleofAllObjects = Bundle(
+                        id="bundle--" + str(uuid.uuid5(namespace, f"extension-definition-bundle")),
+                        objects=object_list,
+                        allow_custom=True
+                    )
+
 # Write the objects to the filestore
 ## https://stix2.readthedocs.io/en/latest/guide/filesystem.html#FileSystemSource
 
@@ -222,3 +233,7 @@ shutil.move("tmp_object_store/extension-definition/new-sco/phone-number/extensio
 shutil.move("tmp_object_store/extension-definition/new-sco/user-agent/extension-definition/extension-definition--" + str(uuid.uuid5(namespace, f"user-agent")) + "/20200101000000000.json", "objects/extension-definition/extension-definition--" + str(uuid.uuid5(namespace, f"user-agent")) + ".json")
 
 shutil.rmtree("tmp_object_store")
+
+## Print the bundle
+
+print(BundleofAllObjects.serialize(pretty=True))

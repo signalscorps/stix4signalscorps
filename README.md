@@ -26,6 +26,7 @@ Make your modifications.
 And then run each of the scripts as required. Or run them all;
 
 ```shell
+rm -rf objects && \
 python3 generators/identity.py && \
 python3 generators/marking-definition.py && \
 python3 generators/extension-definition.py && \
