@@ -13,7 +13,6 @@ from uuid import UUID
 # create the directories
 
 tmp_directories = [
-    "tmp_object_store/identity/cpe2stix",
     "tmp_object_store/identity/arango_cti_processor",
     "tmp_object_store/identity/cve2stix",
     "tmp_object_store/identity/cwe2stix",
@@ -57,23 +56,6 @@ github_link="https://github.com/signalscorps/"
 
 # Create Identity SDOs
 ## https://stix2.readthedocs.io/en/latest/api/v21/stix2.v21.sdo.html
-
-### cpe2stix
-
-#### identity--de23ef3b-83bf-56a9-95c3-46bc1703966c
-
-cpe2stix_IdentitySDO = Identity(
-						id="identity--" + str(uuid.uuid5(namespace, f"cpe2stix")),
-						created_by_ref=created_by_ref,
-						created=created,
-						modified=modified,
-                    	name="cpe2stix",
-                        description=github_link+"cpe2stix",
-                        contact_information= contact_information,
-                        identity_class=identity_class,
-                        sectors=sectors,
-						object_marking_refs=object_marking_refs
-                    )
 
 ### arango_cti_processor
 
@@ -227,7 +209,7 @@ txt2stix_IdentitySDO = Identity(
 						object_marking_refs=object_marking_refs
                     )
 
-object_list = cpe2stix_IdentitySDO, arango_cti_processor_IdentitySDO, cve2stix_IdentitySDO, cwe2stix_IdentitySDO, disarm2stix_IdentitySDO, sigma2stix_IdentitySDO, signalscorps_IdentitySDO, signalscorps_demo_IdentitySDO, stix2arango_IdentitySDO, txt2stix_IdentitySDO
+object_list = arango_cti_processor_IdentitySDO, cve2stix_IdentitySDO, cwe2stix_IdentitySDO, disarm2stix_IdentitySDO, sigma2stix_IdentitySDO, signalscorps_IdentitySDO, signalscorps_demo_IdentitySDO, stix2arango_IdentitySDO, txt2stix_IdentitySDO
 
 BundleofAllObjects = Bundle(
                         id="bundle--" + str(uuid.uuid5(namespace, f"identity-bundle")),
@@ -241,7 +223,6 @@ BundleofAllObjects = Bundle(
 ### Creating FileSystemStore and adding IdentitySDO for each directory
 
 fs_directories = {
-    "tmp_object_store/identity/cpe2stix": cpe2stix_IdentitySDO,
     "tmp_object_store/identity/arango_cti_processor": arango_cti_processor_IdentitySDO,
     "tmp_object_store/identity/cve2stix": cve2stix_IdentitySDO,
     "tmp_object_store/identity/cwe2stix": cwe2stix_IdentitySDO,
@@ -266,8 +247,6 @@ final_directories = [
 for directory in final_directories:
     if not os.path.exists(directory):
         os.makedirs(directory)
-
-shutil.move("tmp_object_store/identity/cpe2stix/identity/identity--" + str(uuid.uuid5(namespace, f"cpe2stix")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"cpe2stix")) + ".json")
 
 shutil.move("tmp_object_store/identity/arango_cti_processor/identity/identity--" + str(uuid.uuid5(namespace, f"arango_cti_processor")) + "/20200101000000000.json", "objects/identity/identity--" + str(uuid.uuid5(namespace, f"arango_cti_processor")) + ".json")
 
